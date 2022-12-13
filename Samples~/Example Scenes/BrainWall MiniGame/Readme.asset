@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcf7219bab7fe46a1ad266029b2fee19, type: 3}
+  m_Name: Readme
+  m_EditorClassIdentifier: 
+  icon: {fileID: 2800000, guid: d01d72d809680da46a7cf44ed32e73ba, type: 3}
+  title: Brain Wall
+  sections:
+  - heading: MiniGame - Brain Wall
+    text: "
+	
+	This is a really simple mini game to showcase an application with Axis.\n\nIt's
+      inspired by the classic japanese Game Show Brain Wall. If you never seen before,
+      it's really self explanatory. A moving wall will come in your direction and
+      you must  be in pose where you don't hit the wall.
+	  
+	  
+	  From a developer perspective, in this scene there is a switch between the avatar being controlled by Axis
+      and, when the wall is hit, the control is switch to Ragdoll Physics. This is
+      done by a script called RagdollActivator.cs that is on the Y Bot Character
+      Green (the character you are playing with).
+	  
+	  
+	  To understand what is happening, consider that after hitting Play, the MovingWall is populated by many WallPart
+      prefabs. Each prefab holds a script called WallPartBehavior.cs . If you open
+      this script you will notice that when OnCollisionEnter is called, the WallPart
+      grabs a reference to the script RagdollActivator and call the method SetRagdollPhysicsControl().
+      When the round is over, the GameManager resets the Y Bot to the default position
+      by resetting each transform rotation. 
+	  
+	  
+	  The RagdollActivator is not included on the SDK, as it's an specific implementation for this situation, but you
+      are welcome to use it and modify it on your projects!
+	  
+	  
+	  Another thing you will notice is that whenever the wall hits your character, you receive a vibration
+      feedback on the limb that was hit. To understand what is happening, first consider
+      that this is a Ragdoll created by Unity, so, to handle the physics, some RigidBodies
+      and Colliders were attached to some specific parts of the character. For example,
+      select in the 'Y Bot Character Green'  game object hierarchy 'mixamorig:RightUpLeg'.
+      On the inspector, below the Capsule Collider, RigidBody and CharacterJoint,
+      you will find a script called Vibrate On Trigger.
+	  
+	  
+	  It's a really simple script that has a public field called NodeToVibrate and invokes an AxisEvents Action called ''OnSetNodeVibration'' with the respective parameters.
+	  
+	  
+	  The VibrationFeedbackParameters is a class (specifically a Singleton Design Pattern) that holds global parameters accessed by all instances of this script (in other limbs, for example). 
+	  
+	  
+	  The IEnumerator CooldownAfter is just a function that will run in parallel and reset the cooledDown variable after some time, to avoid vibrating repeteadly the same node. 
+	  \n\n\n"
+    linkText:
+    url:
+  loadedLayout: 0
