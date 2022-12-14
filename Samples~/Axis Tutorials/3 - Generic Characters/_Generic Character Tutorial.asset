@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f107dc6d4c984c45bdafd3bb15f98f0, type: 3}
+  m_Name: _Generic Character Tutorial
+  m_EditorClassIdentifier: 
+  TutorialTitle:
+    m_Untranslated: New Tutorial
+  m_ProgressTrackingEnabled: 1
+  m_LessonId: dfe0060e-6a91-4a3a-b6f0-bd5986a5c4a1
+  m_Version: 1
+  m_SceneManagementBehavior: 0
+  m_Scenes: []
+  m_DefaultSceneCameraSettings:
+    m_CameraMode: 0
+    m_FocusMode: 0
+    m_Orthographic: 0
+    m_Size: 0
+    m_Pivot: {x: 0, y: 0, z: 0}
+    m_Rotation: {x: 0, y: 0, z: 0, w: 0}
+    m_FrameObject:
+      m_SceneGuid: 
+      m_GameObjectGuid: 
+      m_SerializedComponentType:
+        m_TypeName: 
+      m_ComponentIndex: 0
+      m_AssetObject: {fileID: 0}
+      m_Prefab: {fileID: 0}
+    m_Enabled: 0
+  m_WindowLayout: {fileID: 0}
+  m_Pages:
+    m_Items:
+    - {fileID: 11400000, guid: 8f3d1034b7309fb4486c3751412210e2, type: 2}
+    - {fileID: 11400000, guid: ba9545e9cc8c69848bae8c0d73077f87, type: 2}
+    - {fileID: 11400000, guid: e4943a31acdb4bf4dabf69a196180945, type: 2}
+    - {fileID: 11400000, guid: 236f176050409c5418a1e7c053e14e81, type: 2}
+    - {fileID: 11400000, guid: 224bd80f7dae70140a5e462abfab454a, type: 2}
+    - {fileID: 11400000, guid: 9dae2d0a986d9d14da2f186e97d94b09, type: 2}
+    - {fileID: 11400000, guid: a1d32114566441b41a56702fd2617e7b, type: 2}
+    - {fileID: 11400000, guid: 9e8f0fafcfc91fc47a666ecda50facc8, type: 2}
+    - {fileID: 11400000, guid: 273a8b83158a562488c6d432b77df19d, type: 2}
+    - {fileID: 11400000, guid: b3c5db8eea61aaa47af8d5fbd5326b58, type: 2}
+    - {fileID: 11400000, guid: cf4e4435a477ba642a9c226e1f883ca9, type: 2}
+    - {fileID: 11400000, guid: c49d2b5bf6c4d60488a80a8378e51567, type: 2}
+    - {fileID: 11400000, guid: b4abc2fe7e8daab4c8c10ed1a778f7e0, type: 2}
+    - {fileID: 11400000, guid: fed9c25fb52facd4f883f1d3b0674c94, type: 2}
+  CompletionDialog: {fileID: 11400000, guid: 37b8b5e1c1ca89c43a99d850bce595f9, type: 2}
+  Modified:
+    m_PersistentCalls:
+      m_Calls: []
+  Initiated:
+    m_PersistentCalls:
+      m_Calls: []
+  PageInitiated:
+    m_PersistentCalls:
+      m_Calls: []
+  GoingBack:
+    m_PersistentCalls:
+      m_Calls: []
+  Completed:
+    m_PersistentCalls:
+      m_Calls: []
+  Quit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Scene: {fileID: 0}
+  m_TutorialTitle: 

@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcf7219bab7fe46a1ad266029b2fee19, type: 3}
+  m_Name: Readme
+  m_EditorClassIdentifier: 
+  icon: {fileID: 2800000, guid: 2bc377f329a25364cbc13302d5abc435, type: 3}
+  title: Axis Body Tracking
+  sections:
+  - heading: Axis Absolute Tracking + Node Object
+    text: '
+ 
+      This is a scene where one of the nodes is converted to a Node
+      Object. A Node Object is an experimental feature where you can use Axis Nodes
+      attached to objects. In this example, you don''t need to attach to anything,
+      but the idea behind this scene is to use one of the nodes as a flashlight.
+      To make it work, you have to place the Left ForeArm node flat on a table, with
+      the LED facing up and pointing away from you.
+
+
+      Then you have to go to
+      the Axis Control Center and perform the calibration, like you did before, but
+      this time leave the node on the table. After running the calibration, come
+      back to unity and place you right hand palm facing up and put the node with
+      the LED facing up and pointing to your fingers.
+ 
+  
+      Thats it! If everything
+      works as expected, when you hit Play, you will be able to move around in the scene and the Node you are holding
+      will behave like a flashlight. Keep in mind, this is an experimental feature
+      that is only here to spark your imagination!
+	   
+	   
+	  To understand what is happening, there is two things to keep in mind: 
+	   
+	    
+	  1) Check the game object NodeObjectProcessor (it''s a child of Axis Brain). In the single script on this game object, there is a reference to a prefab called Flash Light. Inside that Prefab, there is a script called Node Object, and you will find some configurations there.
+	   
+	    
+	  2) The Axis Brain on this scene uses a custom configuration file, called: "Absolute Tracking + Node Object Configuration". If you open it, you will see that the Node 7 (which usually is the Left Forearm node) is configured to be a NodeObject. 
+	   
+	   
+	  
+	  
+	  '

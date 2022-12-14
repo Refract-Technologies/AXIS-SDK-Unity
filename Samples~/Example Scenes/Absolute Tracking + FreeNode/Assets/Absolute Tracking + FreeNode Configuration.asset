@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d2297c722a922e4a84798940d41bef0, type: 3}
+  m_Name: Absolute Tracking + FreeNode Configuration
+  m_EditorClassIdentifier: 
+  nodeArrangement: 0
+  useHubRotation: 0
+  movementConfiguration: {fileID: 11400000, guid: 45afa54bad7a1184e87b6ea9e0bff778,
+    type: 2}
+  nodeBindings: 000000000100000002000000030000000400000005000000060000000700000008000000
+  hipsBehavior: 1
