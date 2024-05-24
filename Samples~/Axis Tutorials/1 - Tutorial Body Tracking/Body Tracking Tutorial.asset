@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f107dc6d4c984c45bdafd3bb15f98f0, type: 3}
+  m_Name: Body Tracking Tutorial
+  m_EditorClassIdentifier: 
+  TutorialTitle:
+    m_Untranslated: Axis Body Tracking - Humanoid Characters
+  m_ProgressTrackingEnabled: 1
+  m_LessonId: fa21d97a-ca13-4a5c-bf9e-65692dae9431
+  m_Version: 1
+  m_SceneManagementBehavior: 0
+  m_Scenes:
+  - {fileID: 102900000, guid: 5948d8e95c57c84498a1e65b7809ca5d, type: 3}
+  m_DefaultSceneCameraSettings:
+    m_CameraMode: 1
+    m_FocusMode: 0
+    m_Orthographic: 1
+    m_Size: 3.5678122
+    m_Pivot: {x: -41.011032, y: 14.069075, z: 15.366789}
+    m_Rotation: {x: 0.086095326, y: 0.80665034, z: -0.12141619, w: 0.5719824}
+    m_FrameObject:
+      m_SceneGuid: 
+      m_GameObjectGuid: 
+      m_SerializedComponentType:
+        m_TypeName: 
+      m_ComponentIndex: 0
+      m_AssetObject: {fileID: 0}
+      m_Prefab: {fileID: 0}
+    m_Enabled: 1
+  m_WindowLayout: {fileID: 102900000, guid: e8d08a9eb3da8344a85b082c5f0a2519, type: 3}
+  m_Pages:
+    m_Items:
+    - {fileID: 11400000, guid: 4db89e7cbd403b449a4518644e6364d2, type: 2}
+    - {fileID: 11400000, guid: 3ea1d6c2629e9d34d84918d412c2fd84, type: 2}
+    - {fileID: 11400000, guid: 3ab73dc5f59ceac41b5021726103247f, type: 2}
+    - {fileID: 11400000, guid: 2ec4e117dae451542a9e82eb83cf56f9, type: 2}
+    - {fileID: 11400000, guid: 3414c30cfb5c20f4ebfeef627a71099a, type: 2}
+    - {fileID: 11400000, guid: da765b3b00f3a6c49a795076c17ff2b6, type: 2}
+    - {fileID: 11400000, guid: a316bad9e37ce5747b2a3f7393895ac5, type: 2}
+    - {fileID: 11400000, guid: 380f7355c63a1524bb5b735952b77cc3, type: 2}
+  CompletionDialog: {fileID: 11400000, guid: ff3ad1d34e287904f932341ac0d3dda1, type: 2}
+  Modified:
+    m_PersistentCalls:
+      m_Calls: []
+  Initiated:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 4ee4e73191b7e114a8ff854514abbf54, type: 2}
+        m_TargetAssemblyTypeName: Axis.Tutorials.TutorialCallbacks, Assembly-CSharp
+        m_MethodName: LoadWindowLayout
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  PageInitiated:
+    m_PersistentCalls:
+      m_Calls: []
+  GoingBack:
+    m_PersistentCalls:
+      m_Calls: []
+  Completed:
+    m_PersistentCalls:
+      m_Calls: []
+  Quit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Scene: {fileID: 0}
+  m_TutorialTitle: 

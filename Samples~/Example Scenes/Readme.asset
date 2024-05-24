@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcf7219bab7fe46a1ad266029b2fee19, type: 3}
+  m_Name: Readme
+  m_EditorClassIdentifier: 
+  icon: {fileID: 2800000, guid: 2bc377f329a25364cbc13302d5abc435, type: 3}
+  title: Axis Body Tracking
+  sections:
+  - heading: Example Scenes and Tutorial
+    text: This project contains simple samples for different Axis Body Tracking use
+      cases.
+    linkText: Axis Home Page
+    url: https://refract.gg/
+  - heading: Absolute Tracking
+    text: 'This scene contains an example of a the simplest Axis use case: full body
+      tracking + absolute positioning. This is used for developing games and also
+      for streaming content using custom characters'
+    linkText: 
+    url: 
+  - heading: Absolute Tracking + Free Node
+    text: "This scene contains an example of the using Absolute Tracking and also
+      a free node.  In this scene, you have to be wearing and use the left forearm
+      node as the light intensity controller.  By holding the node with the led facing
+      you and pointing up. If you rotate the node in your hand in such a way that
+      the LED points up, then points away from you, then down, then back to the original
+      position, you will be controlling the light intensity on a Spot Light on the
+      scene. \nBear in mind that the Axis Brain on this scene have a reference to
+      a specific Configuration Asset (thats also on the scene folder). If you click
+      on Axis Brain game object, you will notice that the node #7 (originally Left
+      Forearm)is set to be a FreeNode. That means that it wont update the Mannequin
+      Model and consequently, won't update the character. \nYou'll also notice the
+      presence of a game object called Light Control. In that game object there is
+      a simple script, with the same name, that subscribe to an Action and update
+      the Spot Light intensity accordingly. Please, check the aforementioned objects
+      to understand what is going on."
+    linkText: 
+    url: 
+  - heading: Absolute Tracking + Node Object
+    text: 'This scene contains an example of the usage of Axis System attached to
+      physical objects. You don''t need to attach to anything, just need to hold
+      the node in a specific way: open your right hand palm up, rest the node with
+      the LED visible and the led oriented as your thumb. Close your hand and thats
+      it.  There is a picture on the Scene folder with how to hold the node.
+
+      In
+      the scene your character will be holding an Flash Light. Move the node on your
+      hand and observe the scene.'
+    linkText: 
+    url: 
+  loadedLayout: 0

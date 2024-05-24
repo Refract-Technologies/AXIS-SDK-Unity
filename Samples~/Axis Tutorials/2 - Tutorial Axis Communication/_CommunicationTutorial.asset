@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f107dc6d4c984c45bdafd3bb15f98f0, type: 3}
+  m_Name: _CommunicationTutorial
+  m_EditorClassIdentifier: 
+  TutorialTitle:
+    m_Untranslated: Axis Communication
+  m_ProgressTrackingEnabled: 1
+  m_LessonId: 65add44f-6880-4fc9-b4f9-668c7c4f9653
+  m_Version: 1
+  m_SceneManagementBehavior: 1
+  m_Scenes:
+  - {fileID: 102900000, guid: a274775b163e3de45b3c682d93c9d6dd, type: 3}
+  m_DefaultSceneCameraSettings:
+    m_CameraMode: 1
+    m_FocusMode: 0
+    m_Orthographic: 1
+    m_Size: 0.3459962
+    m_Pivot: {x: -0.18206775, y: -0.21330705, z: 0.15993837}
+    m_Rotation: {x: -0.00013424661, y: 0.9987737, z: -0.049479786, w: -0.002700619}
+    m_FrameObject:
+      m_SceneGuid: 
+      m_GameObjectGuid: 
+      m_SerializedComponentType:
+        m_TypeName: 
+      m_ComponentIndex: 0
+      m_AssetObject: {fileID: 0}
+      m_Prefab: {fileID: 0}
+    m_Enabled: 1
+  m_WindowLayout: {fileID: 102900000, guid: 5aa50ddd9eac1a34982d6e48522af294, type: 3}
+  m_Pages:
+    m_Items:
+    - {fileID: 11400000, guid: 29f36200723b0794cb1b72626e2d3bfe, type: 2}
+    - {fileID: 11400000, guid: a98f770208d9c2944b67570c5c39e747, type: 2}
+    - {fileID: 11400000, guid: 6b3b03be23345fb458b543dcf7387093, type: 2}
+    - {fileID: 11400000, guid: 1b44b2d03e3518d4c84e32dfa1fe58e2, type: 2}
+    - {fileID: 11400000, guid: 09799cedb90c34246b3f5ce5867e1df2, type: 2}
+    - {fileID: 11400000, guid: 9eeb3c07c252f154e9ce0f7b72168de3, type: 2}
+    - {fileID: 11400000, guid: a670a29a40182534786a51339f0d4946, type: 2}
+    - {fileID: 11400000, guid: 2cea3b819d2dac04fa7fe4ede54989ce, type: 2}
+    - {fileID: 11400000, guid: ad54874aefb40fe42ba6b601e814f99e, type: 2}
+  CompletionDialog: {fileID: 11400000, guid: 0020acbb2dc6158438bba429cbb2aa08, type: 2}
+  Modified:
+    m_PersistentCalls:
+      m_Calls: []
+  Initiated:
+    m_PersistentCalls:
+      m_Calls: []
+  PageInitiated:
+    m_PersistentCalls:
+      m_Calls: []
+  GoingBack:
+    m_PersistentCalls:
+      m_Calls: []
+  Completed:
+    m_PersistentCalls:
+      m_Calls: []
+  Quit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Scene: {fileID: 0}
+  m_TutorialTitle: 
