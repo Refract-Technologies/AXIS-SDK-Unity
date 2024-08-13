@@ -2,7 +2,9 @@ using Axis.Communication;
 using Axis.Elements;
 using Axis.Elements.Linker;
 using Axis.Elements.MirroredNode;
+using Axis.Enumerations;
 using Axis.Tutorials.Elements;
+using Refract.AXIS;
 using System.Collections.Generic;
 using UnityEditor;
 #if UNITY_EDITOR
@@ -78,7 +80,7 @@ public class CustomCriteria : ScriptableObject
         if(rotatingCube != null)
         {
             
-            rotatingCube.nodeIndex = nodeIndex;
+            rotatingCube.nodeIndex = (NodeBinding)nodeIndex;
            
         }
         anyNodeWasClicked = true;
@@ -134,7 +136,7 @@ public class CustomCriteria : ScriptableObject
 
     public bool isAxisConnected()
     {
-        return AxisRuntimeUdpSocket.IsConnectedToAxis;
+        return AxisBrain.FetchBrainOnScene().axisSDK.isRunning;
     }
 
     public bool isLocalRotation(string transformName, float x, float y, float z)

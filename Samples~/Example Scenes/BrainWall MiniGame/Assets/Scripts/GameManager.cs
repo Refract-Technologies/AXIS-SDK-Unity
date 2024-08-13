@@ -40,7 +40,7 @@ namespace AxisExampleScenes.Minigame.BrainWall
 
         private void OnEnable()
         {
-            VibrationFeedbackSingleton.instance.OnPlayerHit += HandleOnPlayerHit;
+            VibrationFeedbackSingleton.OnPlayerHit += HandleOnPlayerHit;           
         }
 
         private void HandleOnPlayerHit()
@@ -50,8 +50,7 @@ namespace AxisExampleScenes.Minigame.BrainWall
 
         private void OnDisable()
         {
-            VibrationFeedbackSingleton.instance.OnPlayerHit -= HandleOnPlayerHit;
-
+            VibrationFeedbackSingleton.OnPlayerHit -= HandleOnPlayerHit;
         }
 
         private IEnumerator StartRoundAfter(float time)

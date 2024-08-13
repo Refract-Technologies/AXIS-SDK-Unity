@@ -66,13 +66,8 @@ MonoBehaviour:
           send and receive from your Axis System.
 
 
-          If you have not yet,
-          please run <i>Axis Control Center </i> app on your operating system and
-          also have at least one node turned on and paired.
-
-
-          (Please,
-          <b> if prompted </b>, import TextMeshPro Assets)
+          (Please, <b> if prompted
+          </b>, import TextMeshPro Assets)
 
 '
       m_Tutorial: {fileID: 0}

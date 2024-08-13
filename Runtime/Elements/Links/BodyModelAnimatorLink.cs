@@ -2,6 +2,7 @@
 using Axis.DataTypes;
 using Axis.Enumerations;
 using Axis.Utils;
+using Refract.AXIS;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -71,13 +72,14 @@ namespace Axis.Elements.AnimatorLink
         {
             return limb == NodeBinding.Hips;
         }
+        
         public virtual void UpdateTransforms(Dictionary<NodeBinding, AxisNode> nodesByLimb)
         {
             foreach (NodeBinding limb in AxisDataUtility.NodeBindingInOrder)
             {
                 if (transformsByNodeLimbs.ContainsKey(limb) == false) continue;
                 if (CheckIfSkipHip(limb) == true) continue;
-
+                if (nodesByLimb[limb].Active == false) continue;
                 var nodeTransform = nodesByLimb[limb].transform;
 
                 

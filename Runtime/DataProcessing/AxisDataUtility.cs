@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,7 +43,7 @@ namespace Axis.DataProcessing
                 case NodeBinding.LeftForeArm:
                     return HumanBodyBones.LeftLowerArm;
                 case NodeBinding.Chest:
-                    return HumanBodyBones.UpperChest;
+                    return HumanBodyBones.Chest;
 
                 case NodeBinding.RightFoot:
                     return HumanBodyBones.RightFoot;
@@ -77,18 +76,18 @@ namespace Axis.DataProcessing
         {
             
             return new Quaternion(
-                           -rotation.x, //x
-                           -rotation.y, //z
-                           -rotation.z, //y                          
+                           rotation.x, //x
+                           rotation.y, //z
+                           rotation.z, //y                          
                            rotation.w  //w
                            );
         }
         internal static Quaternion ConvertHubRotationToUnitySpace(AxisHubData axisHubData)
         {
             return new Quaternion(
-                           axisHubData.rotation.x, //x
-                           -axisHubData.rotation.y, //z
-                           -axisHubData.rotation.z, //y                          
+                           -axisHubData.rotation.x, //x
+                           axisHubData.rotation.z, //z
+                           axisHubData.rotation.y, //y                          
                            axisHubData.rotation.w  //w
                            );
         }
@@ -119,9 +118,10 @@ namespace Axis.DataProcessing
             };
         }
 
-        
+
 
         #region BindingClassification
+        [Obsolete("Not in use anymore,Please use IsFreeNode instead")]
         internal static bool IsNodeObjectBinding(NodeBinding nodeBinding)
         {
             return nodeBinding == NodeBinding.NodeObject;
@@ -129,7 +129,9 @@ namespace Axis.DataProcessing
 
         internal static bool IsMannequinBinding(NodeBinding nodeBinding)
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             return nodeBinding != NodeBinding.NodeObject && nodeBinding != NodeBinding.FreeNode;
+#pragma warning restore CS0618 // Type or member is obsolete
 
         }
 
@@ -140,45 +142,32 @@ namespace Axis.DataProcessing
         }
 
 
-        private static bool IsFreeNode(NodeBinding key)
+        internal static bool IsFreeNode(NodeBinding key)
         {
-            return key == NodeBinding.NodeObject;
+            return key == NodeBinding.FreeNode;
         }
 
-        private static bool IsFootLimb(NodeBinding key)
-        {
-            return key == NodeBinding.LeftFoot || key == NodeBinding.RightFoot;
-        }
 
-        public static bool IsLegLimb(NodeBinding limb)
-        {
-            return limb == NodeBinding.LeftThigh || limb == NodeBinding.RightThigh;
-        }
-
+        //this array determines the ordering of mannequin parts 
         public static NodeBinding[] NodeBindingInOrder = new NodeBinding[]
         {
             NodeBinding.Hips,
-            //
-            //NodeBinding.WaistHub,
             NodeBinding.Chest,
             NodeBinding.RightThigh,
             NodeBinding.RightCalf,
             NodeBinding.LeftThigh,
             NodeBinding.LeftCalf,
+            NodeBinding.RightShoulder,
             NodeBinding.RightUpperArm,
             NodeBinding.RightForeArm,
+            NodeBinding.LeftShoulder,
             NodeBinding.LeftUpperArm,
             NodeBinding.LeftForeArm,
             NodeBinding.RightFoot,
             NodeBinding.LeftFoot,
             NodeBinding.RightHand,
-            NodeBinding.LeftHand,
-                           
-            NodeBinding.RightShoulder,
-            NodeBinding.LeftShoulder,
-            NodeBinding.Head,
-
-            //NodeBinding.WaistNode,
+            NodeBinding.LeftHand,                           
+            NodeBinding.Head
 
         };
 

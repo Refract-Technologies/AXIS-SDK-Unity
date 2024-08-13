@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Axis.DataTypes;
 using Axis.DataProcessing;
 using UnityEngine;
+using Refract.AXIS;
 
 namespace Axis.Utils
 {
@@ -83,7 +84,7 @@ namespace Axis.Utils
             {
                 if(i < nodeBindings.Count)
                 {
-                    if (AxisDataUtility.IsNodeObjectBinding(nodeBindings[i]))
+                    if (AxisDataUtility.IsFreeNode(nodeBindings[i]))
                     {
                         nodesDataByNodeLimbs.Add(nodeBindings[i], axisOutputData.nodesDataList[i]);
                     }
@@ -93,6 +94,7 @@ namespace Axis.Utils
 
             return nodesDataByNodeLimbs;
         }
+        
 
         internal static Dictionary<NodeBinding, AxisNodeData> GetMannequinNodesData(AxisOutputData axisOutputData, List<NodeBinding> nodeBindings)
         {

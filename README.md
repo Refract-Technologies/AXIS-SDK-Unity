@@ -1,6 +1,6 @@
 # Introduction
 
-Axis SDK Unity Package communicates with Axis Control Center. To use the plugin, you must have Axis Control Center installed and running, and also must have calibrated your Axis System.
+Axis SDK Unity Package communicates with Axis Receiver. To use the plugin, you must have AXIS set.
 
 # How to use this package:
 
@@ -8,6 +8,7 @@ After installing the SDK, it's advised to import the tutorials and samples scene
 
 On the main panel, under Samples, click on Import for both 'Axis Tutorials' and 'Example Scenes'.
 
+For more importants functions, you may look at AxisSDK.cs, AxisAPI.cs and AxisEvents.cs
 # To run the Tutorials:
 
 Click on Tutorials on the toolbar and then on Show Tutorials. On the right side bar all the available tutorials will be shown. It's recommended to follow them in order, but not essential.
@@ -15,3 +16,4 @@ Click on Tutorials on the toolbar and then on Show Tutorials. On the right side 
 # The included samples:
 
 There are 4 samples for different Axis uses. When the Sample scene is a bit more complex, there is also a Readme file on the folder to explain what is going on. 
+

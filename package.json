@@ -1,13 +1,10 @@
 {
   "name": "gg.refract.axissdk",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "displayName": "Axis SDK",
   "description": "Axis SDK for Unity. Included samples and tutorials. If you intend to develop using Axis, It's highly recommended that you complete the body tracking tutorial . To do so, click on Tutorials Toolbar and Welcome Dialog.",
   "unity": "2021.2",
   "unityRelease": "16f1",
-  "documentationUrl": "https://refract.gg/Axis/Guide.pdf",
-  "changelogUrl": "https://refract.gg/AxisSDK/changelog.html",
-  "licensesUrl": "https://refract.gg/AxisSDK/licensing.html",
   "keywords": [
     "Axis",
     "BodyTracking",
@@ -31,6 +28,7 @@
     }
   ],
   "dependencies": {
-    "com.unity.learn.iet-framework": "3.1.1"
+    "com.unity.learn.iet-framework": "3.1.1",
+    "com.unity.textmeshpro" : "3.0.6"
   }
 }

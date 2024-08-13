@@ -29,7 +29,7 @@ namespace Axis.Elements.AnimatorLink
             
             EnforceTPoseFromMannequin(bodyModelAnimatorLink);
             
-            //CreateControlledBones(bodyModelAnimatorLink);
+            CreateControlledBones(bodyModelAnimatorLink);
             FetchTransformsRelatedToNodeLimbs();
             SaveTransformsValues();
 
@@ -92,11 +92,8 @@ namespace Axis.Elements.AnimatorLink
                     Transform characterBone = Animator.GetBoneTransform(bodyBone);
                     if (characterBone != null)
                     {
-                        GameObject controlBone = new GameObject($"Control Bone {bodyBone}");
-                        controlBone.transform.parent = characterBone.transform.parent;
-                        controlBone.transform.rotation = bodyModelBone.transform.rotation;
-                        controlBone.transform.position = characterBone.transform.position;
-                        controlledBones.Add(bodyBone, controlBone.transform);                    
+                        characterBone.transform.rotation = bodyModelBone.rotation;
+                        controlledBones.Add(bodyBone, characterBone);
                     }
                 }
             }
