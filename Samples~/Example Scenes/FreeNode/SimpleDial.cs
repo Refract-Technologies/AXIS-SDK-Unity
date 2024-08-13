@@ -1,26 +1,20 @@
 using Axis.DataTypes;
+using Axis.Elements;
 using Axis.Enumerations;
 using Axis.Events;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Axis.Interfaces;
 using UnityEngine;
 
-public class SimpleDial : MonoBehaviour
+public class SimpleDial : MonoBehaviour, IAxisDataSubscriber<AxisOutputData>
 {
     public MeshRenderer ledMeshRenderer;
     int lastQuadrant;
+    public AxisBrain connectedBrain;
 
-
-    private void OnEnable()
+    private void Awake()
     {
-        AxisEvents.OnAxisOutputDataUpdated += HandleOnAxisDataUpdated;
-    }
-
-    private void OnDisable()
-    {
-        AxisEvents.OnAxisOutputDataUpdated -= HandleOnAxisDataUpdated;
-
+        connectedBrain = connectedBrain == null? AxisBrain.FetchBrainOnScene() : connectedBrain;
+        connectedBrain.masterAxisBroker.RegisterSubscriber(0, this);
     }
 
     private void Start()
@@ -69,15 +63,10 @@ public class SimpleDial : MonoBehaviour
         return 3;
     }
 
-    private void HandleOnAxisDataUpdated(AxisOutputData axisOutputData)
+    public void OnChanged(AxisOutputData data)
     {
-        Quaternion nodeRotation = axisOutputData.nodesDataList[(int)NodeBinding.LeftThigh].rotation;
+        Quaternion nodeRotation = data.nodesDataList[(int)NodeBinding.LeftThigh].rotation;
         Vector3 euler = nodeRotation.eulerAngles;
         transform.localEulerAngles = new Vector3(0f, euler.z, 0f);
     }
-
-    
-
-    
-
 }

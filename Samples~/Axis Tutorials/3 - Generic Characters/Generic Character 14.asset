@@ -37,7 +37,7 @@ MonoBehaviour:
       argType: 3
     - boolValue: 0
       intValue: 0
-      floatValue: 0
+      floatValue: 180
       stringValue: 
       objectValue: {fileID: 0}
       argType: 3
@@ -109,7 +109,7 @@ MonoBehaviour:
       Title:
         m_Untranslated: 
       Text:
-        m_Untranslated: "The values to correct the rotation are: \n\nX = 0\nY = 0\nZ
+        m_Untranslated: "The values to correct the rotation are: \n\nX = 0\nY = 180\nZ
           = 180\n"
       m_Tutorial: {fileID: 0}
       m_Image: {fileID: 0}
@@ -129,7 +129,7 @@ MonoBehaviour:
       Title:
         m_Untranslated: Correct the values on LeftWing1 Rotation Property
       Text:
-        m_Untranslated: Set the values to X = 0, Y = 0, Z = 180.
+        m_Untranslated: Set the values to X = 0, Y = 180, Z = 180.
       m_Tutorial: {fileID: 0}
       m_Image: {fileID: 0}
       m_Video: {fileID: 0}

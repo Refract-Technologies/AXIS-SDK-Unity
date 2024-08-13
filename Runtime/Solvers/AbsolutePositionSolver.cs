@@ -11,8 +11,8 @@ namespace Axis.Solvers
 
     public abstract class AbsolutePositionSolver : MonoBehaviour
     {
-        [Range(-10, 10)] public float xOffset;
-        [Range(-10, 10)] public float zOffset;
+        [Range(-Mathf.Infinity, Mathf.Infinity)] public float xOffset;
+        [Range(-Mathf.Infinity, Mathf.Infinity)] public float zOffset;
 
         public bool GenerateOffsetFromStartingPosition = false;
         public virtual void HandleOnHubDataUpdated(AxisHubData hubData) { }

@@ -7,6 +7,11 @@ using UnityEngine;
 using Axis.DataTypes;
 using Axis.Utils;
 using Axis.Bindings;
+using Axis.Interfaces;
+using Refract.AXIS;
+using UnityEditor;
+using AOT;
+using Axis.Communication.Commander;
 
 namespace Axis.Elements
 {
@@ -26,13 +31,23 @@ namespace Axis.Elements
         [HideInInspector] public string uniqueID = null;
         public AxisMannequin axisMannequin;
         [HideInInspector] public AxisNodesRepresentation axisNodesRepresentation;
-        private NodeObjectsProcessor nodeObjectsHandler;
-        private ActiveNodesDetector activeNodesDetector = new ActiveNodesDetector();
-        private AxisBrainNodeBindings nodeBindings;
+        [HideInInspector] public NodeObjectsProcessor nodeObjectsHandler;
+        [HideInInspector] public AxisBrainNodeBindings nodeBindings;
+        [HideInInspector] public AxisRuntimeCommander runtimeCommander;
         public HipProvider hipProvider;
         
         [SerializeField, HideInInspector] public bool isMannequinVisible;
         [SerializeField, HideInInspector] public bool isNodesRepresentationVisible = false;
+       
+        public MasterAxisBroker masterAxisBroker = new MasterAxisBroker();
+
+        
+        public AxisHubLocation axisHubLocations = AxisHubLocation.HubLocationBack;
+        [Header("Debug Axis Hub IP")]
+        public string axisHubIP;
+        public int axisHubPort = 8080;
+
+        public AxisSDK axisSDK = new AxisSDK();
         #endregion
 
         #region Static Utils
@@ -61,6 +76,19 @@ namespace Axis.Elements
 
         #region Initialization
 
+        void Start()
+        {
+#if UNITY_EDITOR
+            AssemblyReloadEvents.beforeAssemblyReload += AxisAPI.Stop;
+            AssemblyReloadEvents.afterAssemblyReload -= AxisAPI.Stop;
+#endif
+            if (Application.isPlaying && !axisSDK.isRunning)
+            {               
+                axisSDK.StartSDK();  
+            }
+        }
+        
+
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -68,11 +96,11 @@ namespace Axis.Elements
             uniqueID = string.IsNullOrEmpty(uniqueID) == true ? Guid.NewGuid().ToString() : uniqueID;
             
             GetReferences();
-            RegisterCallbacks();
             ResetPosition();
             SetupAxisNodesRepresentation();
             SetupAxisMannequin();
             SetupFreeNodesHandler();
+            RegisterCallbacks();
             SetVisibility();
         }
 
@@ -85,6 +113,7 @@ namespace Axis.Elements
         private void GetReferences()
         {
             nodeBindings = GetComponent<AxisBrainNodeBindings>();
+            runtimeCommander = GetComponent<AxisRuntimeCommander>();
         }
 
         public void SetVisibility()
@@ -114,15 +143,15 @@ namespace Axis.Elements
 
         private void SetupAxisMannequin()
         {
-            
-
-            //axisMannequin.SetupOutputCharacters(OutputCharacters);
             axisMannequin.Initialize(uniqueID);
         }
 
         #endregion
 
-
+        private void Update()
+        {
+            axisSDK.Update();
+        }
 
 
         #endregion
@@ -131,43 +160,28 @@ namespace Axis.Elements
 
         private void RegisterCallbacks()
         {
-            AxisEvents.OnAxisOutputDataUpdated += HandleOnAxisOutputDataUpdated;
+            axisSDK.RegisterAllAxisPublishersToAxisBroker(masterAxisBroker);
+            masterAxisBroker.RegisterSubscriber(0, nodeObjectsHandler);
+
+            //AxisAPI.SendNodeInfoCommand(NodeInfoCommandPayload_t.NodeInfoCommandModes.Visible);
         }
 
         private void OnDisable()
         {
-            AxisEvents.OnAxisOutputDataUpdated -= HandleOnAxisOutputDataUpdated;
+#if UNITY_EDITOR
+            AssemblyReloadEvents.afterAssemblyReload -= AxisAPI.Stop;
+#endif
+            masterAxisBroker?.Cleanup();
+            axisSDK.StopSDK();
         }
-
-        //This function is called whenever the Axis System updates its data, then it updates the Axis Mannequin
-        //and Node Objects Handler
-        private void HandleOnAxisOutputDataUpdated(AxisOutputData axisOutputData)
+        private void OnDestroy()
         {
-            
-            Dictionary<NodeBinding, AxisNodeData> mannequinNodesData;
-            Dictionary<NodeBinding, AxisNodeData> nodeObjectsData;
-           // activeNodesDetector.UpdateActiveNodes(axisOutputData);
-
-            //Debug.Log(axisOutputData.nodesDataList[(int)NodeBinding.LeftThigh].rotation);
-
-            mannequinNodesData = NodesDataSupplier.GetMannequinNodesData(axisOutputData, nodeBindings.nodeBindings);
-            nodeObjectsData = NodesDataSupplier.GetNodeObjecstData(axisOutputData, nodeBindings.nodeBindings);
-            if (mannequinNodesData != null && mannequinNodesData.Count > 0)
-            {
-                axisMannequin.UpdateHubData(axisOutputData.hubData, axisNodesRepresentation.nodesByLimb);              
-                axisMannequin.UpdateNodesData(mannequinNodesData, axisNodesRepresentation.nodesByLimb);
-                //axisMannequin.HandleNodeDataUpdated(axisNodesRepresentation.nodesByLimb);
-                axisMannequin.HandleAxisDataUpdated(axisNodesRepresentation.nodesByLimb, hipProvider, axisOutputData.hubData);
-                axisMannequin.UpdateTorso(axisNodesRepresentation.nodesByLimb);
-                axisMannequin.UpdateHips(axisNodesRepresentation.nodesByLimb);
-            }
-
-            if (nodeObjectsData != null && nodeObjectsData.Count > 0)
-            {             
-                nodeObjectsHandler.UpdateNodesData(nodeObjectsData);
-            }
+#if UNITY_EDITOR
+            AssemblyReloadEvents.afterAssemblyReload -= AxisAPI.Stop;
+#endif
+            masterAxisBroker?.Cleanup();
+            axisSDK.StopSDK();
         }
-
         #endregion
 
 

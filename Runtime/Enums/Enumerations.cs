@@ -81,6 +81,7 @@ namespace Axis.Enumerations
         LeftShoulder,
         Head,
         Hips,
+        [Obsolete("NodeObject is Obsolete, please use FreeNode instead")]
         NodeObject,
         FreeNode
     }
@@ -89,6 +90,12 @@ namespace Axis.Enumerations
     {
         Hub,
         Node
+    }
+
+    public enum AxisHubLocation
+    {
+        HubLocationBack,
+        HubLocationFront
     }
 }
 

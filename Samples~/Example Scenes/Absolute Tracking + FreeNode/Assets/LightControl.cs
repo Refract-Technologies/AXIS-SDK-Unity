@@ -1,34 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using Axis.DataTypes;
+using Axis.Elements;
 using Axis.Enumerations;
 using Axis.Events;
+using Axis.Interfaces;
+using Refract.AXIS;
 using UnityEngine;
 
-public class LightControl : MonoBehaviour
+public class LightControl : MonoBehaviour,IAxisDataSubscriber<AxisOutputData>
 {
     public Light spotLight;
-    public int nodeIndex = 0;
+    public NodeBinding nodeIndex = 0;
 
-    private void OnEnable()
+    private AxisBrain connectedBrain;
+    public void Awake()
     {
-        AxisEvents.OnAxisOutputDataUpdated += HandleOnAxisDataUpdated;
+        connectedBrain = connectedBrain == null ? AxisBrain.FetchBrainOnScene() : connectedBrain;
+        connectedBrain.masterAxisBroker.RegisterSubscriber(0, this);
     }
 
-    private void OnDisable()
+    public void OnChanged(AxisOutputData data)
     {
-        AxisEvents.OnAxisOutputDataUpdated -= HandleOnAxisDataUpdated;
-
-    }
-
-    private void HandleOnAxisDataUpdated(AxisOutputData axisOutputData)
-    {
-        Quaternion nodeRotation = axisOutputData.nodesDataList[nodeIndex].rotation;
+        Quaternion nodeRotation = data.nodesDataList[(int)nodeIndex].rotation;
         Vector3 euler = nodeRotation.eulerAngles;
 
         float sin = Mathf.Cos(euler.y / 2 * Mathf.Deg2Rad);
         float intensity = Mathf.Abs(sin);
         spotLight.intensity = intensity * 50f;
     }
-
 }

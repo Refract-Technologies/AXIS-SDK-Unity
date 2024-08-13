@@ -11,7 +11,7 @@ namespace AxisExampleScenes.Minigame.BrainWall
     public class VibrationFeedbackSingleton : MonoBehaviour
     {
         public static VibrationFeedbackSingleton instance;
-        public Action OnPlayerHit;
+        public static Action OnPlayerHit;
         private void Awake()
         {
             if (instance == null)

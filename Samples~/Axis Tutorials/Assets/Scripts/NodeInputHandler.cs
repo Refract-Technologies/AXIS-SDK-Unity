@@ -57,7 +57,7 @@ public class NodeInputHandler : MonoBehaviour
 
         //IMPORTANT FOR DEVS!!!
         //This is the event that will issue the command for the node to change color
-        Color32 color = new Color(ledPreview.color.r, ledPreview.color.b, ledPreview.color.g);
+        Color32 color = new Color(ledPreview.color.r, ledPreview.color.g, ledPreview.color.b);
         AxisEvents.OnSetNodeLedColor?.Invoke(selectedNodeIndex, color, brightnessSlider.value);
     }
 

@@ -15,6 +15,7 @@ namespace Axis.Elements
         public Action<Vector3> OnAccelerationUpdated;
 
         public Vector3 Accelerations { get; set; }
+        public bool Active {  get; set; }
         public Action<Quaternion> OnRotationUpdated;
         [HideInInspector] public Transform led;
         [HideInInspector] public Transform nodeMesh;

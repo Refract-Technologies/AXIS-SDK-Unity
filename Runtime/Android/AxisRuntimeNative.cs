@@ -39,7 +39,7 @@ namespace Axis.Native
             }
             
             Debug.Assert(axisRuntime != null, "Cannot find Axis Runtime");
-            axisRuntime.Call("start", activityContext);
+            axisRuntime.Call("start");
 
         }
         public void Stop()

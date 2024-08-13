@@ -1,47 +1,15 @@
-using Axis.Enumerations;
+using AOT;
 using Axis.Events;
+using Refract.AXIS;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Axis.Communication.Commander
-{
-    public enum CommandType
-    {
-        MainHeader,
-        ImuZero,
-        Buzz,
-        LedColor,
-        ResetIMU,
-        SetMode,
-        Calibration,
-        StartStreaming,
-        StopStreaming,
-        SetStreamingMode, 
-        SinglePoseCalibration
-    }
+{    
 
     [ExecuteAlways]
     public class AxisRuntimeCommander : MonoBehaviour
     {
-
-        AxisRuntimeUdpSocket axisUdpSocket;
-
-        private Dictionary<CommandType, byte[]> commandTypeToBytes = new Dictionary<CommandType, byte[]>() {
-            { CommandType.MainHeader, new byte[] { 0x00, 0xEF, 0xAC, 0xEF, 0xAC } },
-            { CommandType.ImuZero, new byte[] { 0x16,0x02,0x01 } },
-            { CommandType.Buzz, new byte[] { 0x80 } },
-            { CommandType.LedColor, new byte[] { 0x81 } },
-            { CommandType.SetMode, new byte[] { 0x21 } },
-            { CommandType.Calibration, new byte[] { 0x16,0x01,0x00 } },
-            { CommandType.StartStreaming, new byte[] { 0x01, 0xE0 } },
-            { CommandType.SetStreamingMode, new byte[] { 0x01, 0xE2, 0x01, 0x00} },
-            { CommandType.StopStreaming, new byte[] { 0x01, 0xE1 } },
-            { CommandType.SinglePoseCalibration, new byte[] { 0x16, 0x00, 0x01 } }
-        };
-
         private void OnEnable()
         {
             
@@ -49,65 +17,48 @@ namespace Axis.Communication.Commander
             AxisEvents.OnSetNodeVibration += HandleOnSetNodeVibration;      
             AxisEvents.OnCalibration += HandleOnReboot;
             AxisEvents.OnZeroAll += HandleOnZeroAll;
-            AxisEvents.OnStartStreaming += HandleOnStartStreaming;
             AxisEvents.OnSinglePoseCalibration += HandleOnSingleCalibration;
-
-            axisUdpSocket = GetComponent<AxisRuntimeUdpSocket>();
         }
 
-        private void HandleOnStartStreaming()
+        private void OnDisable()
         {
-            IEnumerable<byte> data = commandTypeToBytes[CommandType.StartStreaming];
-            axisUdpSocket.SendData(data.ToArray());
-            data = commandTypeToBytes[CommandType.SetStreamingMode];
-            axisUdpSocket.SendData(data.ToArray());
-
+            AxisEvents.OnSetNodeLedColor -= HandleOnSetNodeLedColor;
+            AxisEvents.OnSetNodeVibration -= HandleOnSetNodeVibration;
+            AxisEvents.OnCalibration -= HandleOnReboot;
+            AxisEvents.OnZeroAll -= HandleOnZeroAll;
+            AxisEvents.OnSinglePoseCalibration -= HandleOnSingleCalibration;
         }
 
         private void HandleOnReboot()
-        {
-            //byte rebootAllPaired = 0x00;
-            // byte[] commandData = new byte[] {
-            //   rebootAllPaired };
-
-            IEnumerable<byte> data = commandTypeToBytes[CommandType.MainHeader]
-                .Concat(commandTypeToBytes[CommandType.Calibration]);
-               // .Concat(commandData);
-            axisUdpSocket.SendData(data.ToArray());
-            //Debug.Log("Reboot");
+        {           
+            AxisRuntimeErrors result = AxisAPI.SendCalibrationCommand(NodeCalibrationCommandPayload_t.CalibrationCommandTypes.CalibrateFrame,NodeCalibrationCommandPayload_t.CalibrationCommandPoses.TableFloor);
+            if (result != AxisRuntimeErrors.OK)
+            {
+                Debug.LogError("Table Calibration Error Encountered: " + result);
+            }
         }
 
-        private void HandleOnTurnOffStream()
-        {
-            IEnumerable<byte> data = commandTypeToBytes[CommandType.StopStreaming];
-            axisUdpSocket.SendData(data.ToArray());
-        }
 
         private void HandleOnZeroAll()
-        {
-            // byte[] commandData = new byte[] {
-            //   BitConverter.GetBytes(nodeIndex)[0] };
-
-            IEnumerable<byte> data = commandTypeToBytes[CommandType.MainHeader]
-                .Concat(commandTypeToBytes[CommandType.ImuZero]);
-               // .Concat(commandData);
-
-            axisUdpSocket.SendData(data.ToArray());
-            //Debug.Log($"Command Data {commandData[0]}");
+        {           
+            AxisRuntimeErrors result = AxisAPI.SendCalibrationCommand(NodeCalibrationCommandPayload_t.CalibrationCommandTypes.Zero, NodeCalibrationCommandPayload_t.CalibrationCommandPoses.Body);
+            if(result != AxisRuntimeErrors.OK) 
+            {
+                Debug.LogError("Zero All command Error Encountered: " + result);
+            }
         }
         private void HandleOnSetNodeVibration(int nodeIndex, float intensity, float durationSeconds)
-        {         
+        {
+            BuzzCommandPayload_t cmd = new BuzzCommandPayload_t();          
+            cmd.nodeIndex = (AxisNodePositions)nodeIndex;
+            cmd.intensity = GetByteFromNormalizedFloat(intensity);
+            cmd.duration = GetByteFromNormalizedFloat(durationSeconds / 25.5f);
 
-            byte[] commandData = new byte[] {
-                BitConverter.GetBytes(nodeIndex)[0],
-                GetByteFromNormalizedFloat(intensity),
-                GetByteFromNormalizedFloat(durationSeconds/25.5f) };
-
-            IEnumerable<byte> data = commandTypeToBytes[CommandType.MainHeader]
-                .Concat(commandTypeToBytes[CommandType.Buzz])
-                .Concat(commandData);
-
-            axisUdpSocket.SendData(data.ToArray());
+            AxisRuntimeErrors result = AxisAPI.SendBuzzCommand(cmd);
+            if(result != AxisRuntimeErrors.OK) 
+            {
+                Debug.LogError("Node Vibration command Error Encountered: " + result);
+            }
         }
 
         private static byte GetByteFromNormalizedFloat(float normalizedFloat)
@@ -119,27 +70,27 @@ namespace Axis.Communication.Commander
         {
             brightness = brightness > 1f ? 1f/3f : brightness/3f;
 
-            byte[] commandData = new byte[] {
-                BitConverter.GetBytes(nodeIndex)[0],
-                color.r,
-                color.b,
-                color.g,
-                GetByteFromNormalizedFloat(brightness)
-                };
+            LEDCommandPayload_t cmd = new LEDCommandPayload_t();
+            cmd.brightness = GetByteFromNormalizedFloat(brightness);
 
-            IEnumerable<byte> data = commandTypeToBytes[CommandType.MainHeader]
-                .Concat(commandTypeToBytes[CommandType.LedColor])
-                .Concat(commandData);           
-
-            axisUdpSocket.SendData(data.ToArray());
+            cmd.red = color.r;
+            cmd.green = color.g;
+            cmd.blue = color.b;
+            cmd.nodeIndex = (AxisNodePositions)nodeIndex;
+            AxisRuntimeErrors result = AxisAPI.SendLEDCommand(cmd);
+            if (result != AxisRuntimeErrors.OK)
+            {
+                Debug.LogError("Set Node command Error Encountered: " + result);
+            }
         }
         private void HandleOnSingleCalibration()
         {
-            IEnumerable<byte> data = commandTypeToBytes[CommandType.MainHeader]
-                .Concat(commandTypeToBytes[CommandType.SinglePoseCalibration]);
-            axisUdpSocket.SendData(data.ToArray());
+            AxisRuntimeErrors result = AxisAPI.SendCalibrationCommand(NodeCalibrationCommandPayload_t.CalibrationCommandTypes.All, NodeCalibrationCommandPayload_t.CalibrationCommandPoses.Body);
+            if (result != AxisRuntimeErrors.OK)
+            {
+                Debug.LogError("Single Pose command Error Encountered: " + result);
+            }
         }
-
     }
 }
 

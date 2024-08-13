@@ -8,8 +8,8 @@ using Axis.DataTypes;
 using Axis.Events;
 using Axis.Solvers;
 using Axis.Overrides;
-
-
+using Axis.Interfaces;
+using Axis.Utils;
 
 namespace Axis.Elements
 {
@@ -17,7 +17,7 @@ namespace Axis.Elements
     //Axis Mannequin purpose is to be a humanoid character that don't interact directly to the 
     //world, but serves as a model for any application using Axis as a body tracking system for example
     //the class CharacterAnimatorLink uses the AxisMannequin data to animate any humanoid character.
-    public class AxisMannequin : NodeProcessor
+    public class AxisMannequin : NodeProcessor,IAxisDataSubscriber<AxisOutputData>, IAxisDataPublisher<AxisNodesRepresentation>
     {
         #region Class Variables
 
@@ -28,13 +28,17 @@ namespace Axis.Elements
         public Action<AxisHubData> onHubDataUpdated;
         private HipsRotationSolver hipsRotationSolver;
         private TorsoRotationSolver torsoRotationSolver;
-
+        private AxisBrain connectedBrain;
+        private HipProvider hipProvider;
         #endregion
 
         #region Initialization
         public override void Initialize(string uniqueID)
         {
             brainUniqueId = uniqueID;
+            connectedBrain = connectedBrain == null ? AxisBrain.FetchBrainOnScene() : connectedBrain;
+            connectedBrain.masterAxisBroker.RegisterSubscriber(0, this);
+            connectedBrain.masterAxisBroker.RegisterPublisher(this);
             ExecuteOverrides();
             SetupBodyModelAnimationLink(bodyModelAnimatorLink);
             LoadSolvers();
@@ -99,8 +103,12 @@ namespace Axis.Elements
         {
             foreach (var key in nodesDataDictionary.Keys)
             {
-                nodesByLimb[key].SetRotation(AxisDataUtility.ConvertRotationBasedOnKey(key, nodesDataDictionary[key].rotation));
-                nodesByLimb[key].SetAcceleration(nodesDataDictionary[key].accelerations); 
+                if (nodesDataDictionary[key].isActive == true)
+                {
+                    nodesByLimb[key].SetRotation(AxisDataUtility.ConvertRotationBasedOnKey(key, nodesDataDictionary[key].rotation));
+                    nodesByLimb[key].SetAcceleration(nodesDataDictionary[key].accelerations);
+                    nodesByLimb[key].Active = nodesDataDictionary[key].isActive;
+                }
             }
         }
 
@@ -126,8 +134,11 @@ namespace Axis.Elements
 
 
         public Action<BodyModelAnimatorLink> onBodyModelAnimatorLinkUpdated;
+
+        public event PublishAxisData<AxisNodesRepresentation> OnPublishData;
+
         //After generating the pose by modifying the rotations on the BodyModelAnimatorLink, iterate through all the characters
-		//and update the respectives transforms for mirroring the pose of the mannequin.
+        //and update the respectives transforms for mirroring the pose of the mannequin.
         public virtual void HandleNodeDataUpdated(Dictionary<NodeBinding, AxisNode> nodesByLimb)
         {
             AxisEvents.OnNodeByLimbsUpdated?.Invoke(brainUniqueId, nodesByLimb);
@@ -138,11 +149,29 @@ namespace Axis.Elements
         public virtual void HandleAxisDataUpdated(Dictionary<NodeBinding, AxisNode> nodesByLimb,HipProvider hipProvider,AxisHubData axisHubData)
         {
             AxisEvents.OnNodeByLimbsUpdated?.Invoke(brainUniqueId, nodesByLimb);
-            bodyModelAnimatorLink.UpdateTransforms(nodesByLimb);
             bodyModelAnimatorLink.UpdateHipTransform(nodesByLimb,hipProvider, axisHubData);
+            bodyModelAnimatorLink.UpdateTransforms(nodesByLimb);
             onBodyModelAnimatorLinkUpdated?.Invoke(bodyModelAnimatorLink);
         }
-       // public virtual void HandleHubDataUpdated()
+
+        public void OnChanged(AxisOutputData data)
+        {
+            Dictionary<NodeBinding, AxisNodeData> mannequinNodesData;
+            AxisNodesRepresentation representation = connectedBrain.axisNodesRepresentation;
+            hipProvider = connectedBrain.hipProvider;
+            //connectedBrain.activeNodesDetector.UpdateActiveNodes(data);
+            mannequinNodesData = NodesDataSupplier.GetMannequinNodesData(data, connectedBrain.nodeBindings.nodeBindings);
+            if (mannequinNodesData != null && mannequinNodesData.Count > 0)
+            {
+                UpdateHubData(data.hubData, representation.nodesByLimb);
+                UpdateNodesData(mannequinNodesData, representation.nodesByLimb);
+                UpdateTorso(representation.nodesByLimb);
+                UpdateHips(representation.nodesByLimb);
+                HandleAxisDataUpdated(representation.nodesByLimb, hipProvider,data.hubData);
+                OnPublishData?.Invoke(0, representation);
+            }
+        }
+        // public virtual void HandleHubDataUpdated()
 
         #endregion
 

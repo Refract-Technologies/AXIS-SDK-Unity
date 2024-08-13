@@ -5,11 +5,14 @@ using UnityEngine;
 using Axis.ScriptableObjects;
 using Axis.DataTypes;
 using System;
+using Axis.Interfaces;
+using Refract.AXIS;
+using Axis.Utils;
 
 namespace Axis.Elements.FreeNodes
 {
 
-    public class NodeObjectsProcessor : NodeProcessor
+    public class NodeObjectsProcessor : NodeProcessor, IAxisDataSubscriber<AxisOutputData>
     {
         public GameObject objectPrefab;    
         public List<NodeObject> freeNodesObjects;
@@ -19,11 +22,11 @@ namespace Axis.Elements.FreeNodes
         // Update is called once per frame
 
         public Dictionary<NodeBinding, NodeObject> nodeObjects;
-
+        private AxisBrain connectedBrain;
         public override void Initialize(string brainUniqueId)
         {
-
-            if(objectPrefab != null)
+            connectedBrain = connectedBrain == null ? AxisBrain.FetchBrainOnScene() : connectedBrain;
+            if (objectPrefab != null)
             {
                 freeNodesObjects = new List<NodeObject>();
                 nodeObjects = new Dictionary<NodeBinding, NodeObject>();
@@ -32,17 +35,28 @@ namespace Axis.Elements.FreeNodes
                 NodeObject freeNodeObjectAxisNode = freeNodeObject.GetComponent<NodeObject>();
                 //freeNodeObjectAxisNode.runtimeCorrectionOffsets = runtimeCalibrationOffsets;
                 freeNodeObjectAxisNode.motionDetectionParameters = motionDetectionParameters;
-                freeNodeObjectAxisNode.SetNodeBinding(NodeBinding.NodeObject);
+                freeNodeObjectAxisNode.SetNodeBinding(NodeBinding.FreeNode);
                 freeNodesObjects.Add(freeNodeObject.GetComponent<NodeObject>());
-                nodeObjects.Add(NodeBinding.NodeObject, freeNodeObjectAxisNode);
+                nodeObjects.Add(NodeBinding.FreeNode, freeNodeObjectAxisNode);
 
             }
-            
 
+            
             //if (NodeArrangement == NodeArrangement.LeftUpperArmAsGrabbableNode)
             //{
 
             //}
+        }
+
+        public void OnChanged(AxisOutputData data)
+        {
+            Dictionary<NodeBinding, AxisNodeData> nodeObjectsData;
+            nodeObjectsData = NodesDataSupplier.GetNodeObjecstData(data, connectedBrain.nodeBindings.nodeBindings);
+
+            if (nodeObjectsData != null && nodeObjectsData.Count > 0)
+            {
+                UpdateNodesData(nodeObjectsData);
+            }
         }
 
         internal void UpdateNodesData(List<AxisNodeData> freeNodesDataList)
@@ -51,7 +65,7 @@ namespace Axis.Elements.FreeNodes
             //Debug.Log($"The freenodes objects count is {freeNodesObjects.Count}");
             for (int i = 0; i < freeNodesDataList.Count; i++)
             {
-                freeNodesObjects[i].SetRotation(AxisDataUtility.ConvertRotationBasedOnKey(NodeBinding.NodeObject, freeNodesDataList[i].rotation));
+                freeNodesObjects[i].SetRotation(AxisDataUtility.ConvertRotationBasedOnKey(NodeBinding.FreeNode, freeNodesDataList[i].rotation));
                 freeNodesObjects[i].SetAcceleration(freeNodesDataList[i].accelerations);
             }
         }
@@ -62,7 +76,7 @@ namespace Axis.Elements.FreeNodes
             {
                 if (nodeObjects != null && nodeObjects.ContainsKey(key))
                 {
-                    nodeObjects[key].SetRotation(AxisDataUtility.ConvertRotationBasedOnKey(NodeBinding.NodeObject, nodeObjectsData[key].rotation));
+                    nodeObjects[key].SetRotation(AxisDataUtility.ConvertRotationBasedOnKey(NodeBinding.FreeNode, nodeObjectsData[key].rotation));
                     nodeObjects[key].SetAcceleration(nodeObjectsData[key].accelerations);
 
                 }

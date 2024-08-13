@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Axis.DataTypes;
 using Axis.Enumerations;
 using Axis.Utils;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine;
 namespace Axis.Elements
 {
     [ExecuteAlways]
-    public class AxisNodesRepresentation : NodeProcessor
+    public class AxisNodesRepresentation : NodeProcessor,IAxisData
     {
         
         public Transform nodeWorldOrientations;

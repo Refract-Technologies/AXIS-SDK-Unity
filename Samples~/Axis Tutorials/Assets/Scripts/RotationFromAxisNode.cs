@@ -1,26 +1,27 @@
-
 using Axis.DataTypes;
-
-using Axis.Events;
+using Axis.Elements;
+using Axis.Enumerations;
+using Axis.Interfaces;
 using UnityEngine;
 
 //A class to demo the bare minimun for retrieving node Rotation Data
-public class RotationFromAxisNode : MonoBehaviour
+public class RotationFromAxisNode : MonoBehaviour,IAxisDataSubscriber<AxisOutputData>
 {  
-    public int nodeIndex = 0;
+    public NodeBinding nodeIndex = 0;
+    private AxisBrain connectedBrain;
    
     private void OnEnable()
     {
-        AxisEvents.OnAxisOutputDataUpdated += HandleOnAxisDataUpdated;
+        connectedBrain = connectedBrain == null ? AxisBrain.FetchBrainOnScene() : connectedBrain;
+        connectedBrain.masterAxisBroker.RegisterSubscriber(0, this);
     }
 
     private void OnDisable()
     {
-        AxisEvents.OnAxisOutputDataUpdated -= HandleOnAxisDataUpdated;
+        connectedBrain.masterAxisBroker.DeregisterSubscriber(0, this);        
     }
-    private void HandleOnAxisDataUpdated(AxisOutputData axisOutputData)
+    public void OnChanged(AxisOutputData data)
     {
-        
-        transform.rotation = axisOutputData.nodesDataList[nodeIndex].rotation;
+        transform.rotation = data.nodesDataList[(int)nodeIndex].rotation;
     }
 }
