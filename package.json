@@ -1,6 +1,6 @@
 {
   "name": "gg.refract.axissdk",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "displayName": "Axis SDK",
   "description": "Axis SDK for Unity. Included samples and tutorials. If you intend to develop using Axis, It's highly recommended that you complete the body tracking tutorial . To do so, click on Tutorials Toolbar and Welcome Dialog.",
   "unity": "2021.2",
