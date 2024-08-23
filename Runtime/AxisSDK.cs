@@ -110,6 +110,9 @@ namespace Refract
                             case AxisPacketTypes.NodeConfigResponse:
                                 nodeConfigPublisher?.PublishData(packetWithType.packet.nodeConfigRes);
                                 break;
+                            case AxisPacketTypes.ReportBatt:
+                                battInfoPublisher?.PublishData(packetWithType.packet.battInfo);
+                                break;
                             default:
                                 break;
                         }
